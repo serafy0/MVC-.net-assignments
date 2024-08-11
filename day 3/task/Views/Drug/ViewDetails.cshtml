@@ -1,0 +1,17 @@
+@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Drug drug = ViewData["dd"] as Drug;
+}
+<ul>
+    <li>ID: @drug.ID</li>
+    <li>Name: @drug.Name</li>
+    <li>Company Name: @drug.CompanyName</li>
+    <li>Man Date: @drug.ManufactureDate</li>
+    <li>Exp Date: @drug.ExpirationDate</li>
+
+
+    <li>Imge: <img style="width:200px;hieght=200px" src="@drug.ImagePath" /></li>
+</ul>

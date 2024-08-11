@@ -1,0 +1,73 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+
+    Layout = "_NewLayout";
+
+
+}
+
+<form>
+    <br />
+    <label>enter your name</label>
+    <input type="text" name="name" />
+    <br />
+    <label>enter your address</label>
+    <input type="text" name="address" />
+    <br />
+
+    <label>enter your age</label>
+    <input type="number" min="1" name="age" />
+    <br />
+
+    <label>enter your gender</label>
+    <select name=gender>
+        <option default value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+    <input type="submit" />
+</form>
+
+@{
+    string? name = Request.Query["name"];
+    string? address = Request.Query["address"];
+    string? age = Request.Query["age"];
+    string? gender = Request.Query["gender"];
+    string styling = "color:blue;";
+
+
+
+
+
+    int ageNumber;
+
+    int.TryParse(age, out ageNumber);
+    if (name != null && address != null && gender != null && age != null)
+    {
+
+        if (ageNumber >= 18)
+        {
+            if (gender == "Female")
+            {
+                styling = "color:pink;";
+            }
+
+            <div style=@styling>
+
+                <h1>hello @name</h1>
+                <h1>your age is @age</h1>
+                <h1>your address is address</h1>
+                <h1>your gender is @gender</h1>
+            </div>
+        }
+        else
+        {
+            <h1>
+                you are not over 18
+            </h1>
+        }
+
+
+    }
+}
