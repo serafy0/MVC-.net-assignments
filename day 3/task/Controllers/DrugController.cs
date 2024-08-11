@@ -77,104 +77,67 @@ public class DrugController : Controller
         _logger = logger;
     }
 
-    public ViewResult GetAll()
+    [HttpGet]
+    public ViewResult Index()
     {
         ViewBag.dd = drugs;
 
-        return View();
+        return View(drugs);
     }
 
     public ViewResult ViewDetails(int id)
     {
         Drug d = drugs.FirstOrDefault(x => x.ID == id);
 
-        // if (d == null)
-        // {
-        //     return NotFound();
-        // }
-
         ViewBag.dd = d;
         return View();
     }
 
-    public IActionResult EditForm(int id)
+    [HttpGet]
+    public IActionResult Edit(int id)
     {
         Drug drug = drugs.Find(x => x.ID == id);
         if (drug == null)
         {
             return NotFound();
         }
-        ViewBag.dd = drug;
-        return View();
+        return View(drug);
     }
 
-    public IActionResult ActualEdit(
-        int id,
-        string name,
-        string imagePath,
-        string companyName,
-        DateTime manufactureDate,
-        DateTime expirationDate
-    )
+    [HttpPost]
+    public IActionResult Edit(Drug d)
     {
-        Drug d = drugs.Find(dd => dd.ID == id);
-        if (d == null)
-        {
-            return NotFound();
-        }
-        Console.WriteLine(d);
-        Console.WriteLine(d.Name);
-        Console.WriteLine(name);
-        Console.WriteLine(imagePath);
-        Console.WriteLine(companyName);
+        Drug old = drugs.Find(dr => dr.ID == d.ID);
+        old.Name = d.Name;
+        old.ImagePath = d.ImagePath;
+        old.CompanyName = d.CompanyName;
 
-        d.Name = name;
-        d.ImagePath = imagePath;
-        d.CompanyName = companyName;
+        old.ManufactureDate = d.ManufactureDate;
+        old.ExpirationDate = d.ExpirationDate;
 
-        Console.WriteLine(d.Name);
-
-        d.ManufactureDate = manufactureDate;
-        d.ExpirationDate = expirationDate;
-
-        return RedirectToAction("GetAll");
+        return RedirectToAction("Index");
     }
 
-    public IActionResult AddForm()
+    [HttpGet]
+    public IActionResult Create()
     {
         return View();
     }
 
-    public IActionResult ActualInsert(
-        int id,
-        string name,
-        string imagePath,
-        string companyName,
-        DateTime manufactureDate,
-        DateTime expirationDate
-    )
+    [HttpPost]
+    public IActionResult Create(Drug drug)
     {
-        if (drugs.Any(dd => dd.ID == id))
+        if (drugs.Any(dd => dd.ID == drug.ID))
         {
             return NotFound();
         }
 
-        Drug d =
-            new()
-            {
-                ID = id,
-                Name = name,
-                ImagePath = imagePath,
-                CompanyName = companyName,
-                ManufactureDate = manufactureDate,
-                ExpirationDate = expirationDate
-            };
-
-        drugs.Add(d);
-        return RedirectToAction("GetAll");
+        drugs.Add(drug);
+        return RedirectToAction("Index");
     }
 
-    public IActionResult DeleteItem(int id)
+    [HttpPost]
+    public IActionResult Delete(int id)
     {
         Drug drug = drugs.FirstOrDefault(d => d.ID == id);
         if (drug == null)
@@ -182,6 +145,6 @@ public class DrugController : Controller
             return NotFound();
         }
         drugs.Remove(drug);
-        return RedirectToAction("GetAll");
+        return RedirectToAction("Index");
     }
 }
