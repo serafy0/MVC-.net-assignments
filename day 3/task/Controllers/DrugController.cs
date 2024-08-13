@@ -8,7 +8,7 @@ public class DrugController : Controller
 {
     private readonly ILogger<DrugController> _logger;
 
-    static List<Drug> drugs = new List<Drug>()
+    public static List<Drug> drugs = new List<Drug>()
     {
         new Drug()
         {
@@ -85,6 +85,13 @@ public class DrugController : Controller
         return View(drugs);
     }
 
+    [HttpGet]
+    public ViewResult newIndex()
+    {
+
+        return View();
+    }
+
     public ViewResult ViewDetails(int id)
     {
         Drug d = drugs.FirstOrDefault(x => x.ID == id);
@@ -145,6 +152,6 @@ public class DrugController : Controller
             return NotFound();
         }
         drugs.Remove(drug);
-        return RedirectToAction("Index");
+        return RedirectToAction("newIndex");
     }
 }
