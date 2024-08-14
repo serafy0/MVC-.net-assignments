@@ -1,0 +1,53 @@
+﻿
+
+@* <h1>your variable = @ViewData["myVar"]</h1> read the view data
+*@
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Details</th>
+        <th>Edit</th>
+
+
+    </tr>
+    @foreach (var item in Model as List<Drug>)
+    {
+        <tr>
+
+
+            <td>
+                <img style="width:200px;hieght=200px" src="@item.ImagePath" />
+
+            </td>
+            <td>
+                <p>@item.Name</p>
+            </td>
+            <td>
+                <a href="~/Drug/Edit/@item.ID" class="btn btn-dark"> Edit</a>
+            </td>
+
+
+            <td>
+
+                <a class="btn btn-success" href="~/Drug/ViewDetails/@item.ID">View
+                    details</a>
+            </td>
+
+
+
+
+            <td>
+
+                <form method="post" action="~/drug/delete/@item.ID">
+                    <input type="hidden" name="id" value="@item.ID" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+
+
+        </tr>
+
+    }
+</table>
+<a href="~/Drug/Create" class="btn btn-primary">Add new Drug</a>

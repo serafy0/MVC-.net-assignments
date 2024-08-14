@@ -1,0 +1,15 @@
+﻿@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Drug
+
+<ul>
+    <li>ID: @Model.ID</li>
+    <li>Name: @Model.Name</li>
+    <li>Company Name: @Model.Company?.Name</li>
+    <li>Man Date: @Model.ManufactureDate</li>
+    <li>Exp Date: @Model.ExpirationDate</li>
+
+
+    <li>Imge: <img style="width:200px;hieght=200px" src="@Model.ImagePath" /></li>
+</ul>
