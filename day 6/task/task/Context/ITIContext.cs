@@ -7,6 +7,7 @@ namespace task.Context
     {
         public virtual DbSet<Drug> Drugs { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public ITIContext(DbContextOptions options) : base(options)
         {

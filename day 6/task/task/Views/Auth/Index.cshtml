@@ -1,0 +1,9 @@
+﻿@model task.Models.User
+
+<h2>Welcome, @Model.Name</h2>
+
+<p>Email: @Model.Email</p>
+<p>Age: @Model.Age</p>
+
+<a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-secondary">Edit</a>
+<a asp-action="Logout" class="btn btn-danger">Logout</a>
