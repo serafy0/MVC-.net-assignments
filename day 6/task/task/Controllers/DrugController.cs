@@ -46,31 +46,36 @@ namespace task.Controllers
         [HttpPost]
         public  IActionResult Create(Drug drug,string CompanyName)
         {
-            
-            var company = _context.Companies.FirstOrDefault(c => c.Name == CompanyName);
-            if (company == null)
+            if (ModelState.IsValid)
             {
-                company = new Company { Name = CompanyName };
-                            _context.Add(company);
-            _context.SaveChanges();
+                var company = _context.Companies.FirstOrDefault(c => c.Name == CompanyName);
+
+                if (company == null)
+                {
+                    company = new Company { Name = CompanyName };
+                    _context.Add(company);
+                    _context.SaveChanges();
+
+                }
+                if (drug.Company != null)
+                {
+                    Company oldCompanyId = _context.Companies.FirstOrDefault(c => c.ID == drug.Company.ID);
+                    _context.Companies.Remove(oldCompanyId);
+                }
+
+
+                drug.Company = company;
+                _context.Add(drug);
+
+                _context.SaveChanges();
+                return RedirectToAction("Index");
 
             }
-            if (drug.Company != null)
-            {
-                Company oldCompanyId = _context.Companies.FirstOrDefault(c => c.ID == drug.Company.ID);
-                _context.Companies.Remove(oldCompanyId);
-            }
-            
 
-            drug.Company = company;
-            _context.Add(drug);
-
-            _context.SaveChanges();
-
-            
+            return View(drug);
 
 
-            return RedirectToAction("Index");
+
 
 
         }
@@ -90,20 +95,37 @@ namespace task.Controllers
         [HttpPost]
         public IActionResult Edit(Drug drug,string CompanyName)
         {
-            var company = _context.Companies.FirstOrDefault(c => c.Name == CompanyName);
-            if (company == null)
+            if (ModelState.IsValid &&drug!=null)
             {
-                company = new Company { Name = CompanyName };
-                _context.Add(company);
-                _context.SaveChanges();
+                
+                var company = _context.Companies.FirstOrDefault(c => c.Name == CompanyName);
+                if (company == null)
+                {
+                    company = new Company { Name = CompanyName };
+                    _context.Add(company);
+                    _context.SaveChanges();
+
+                }
+
+                drug.Company = company;
+                _context.Update(drug);
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                    return View(drug);
+                }
+                return RedirectToAction("Index");
 
             }
+            else
+            {
+                return View(drug);
+            }
 
-            drug.Company = company;
-            _context.Update(drug);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index");
 
         }
 

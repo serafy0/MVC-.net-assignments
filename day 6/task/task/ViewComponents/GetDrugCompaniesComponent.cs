@@ -15,10 +15,11 @@ namespace task.Components
             _context = context;
 
         }
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string selectedCompanyName)
         {
             // List<int?> companiesList = _context.Drugs.ToList().Select(d => d.CompanyID).Distinct().ToList();
             List<string> companiesList = _context.Companies.Select(c => c.Name).Distinct().ToList();
+            ViewBag.SelectedCompanyName = selectedCompanyName;
             return View(companiesList);
         }
 

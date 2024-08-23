@@ -4,13 +4,12 @@
 @{
 }
 
-@model List<string>;
-<h3> drug company names</h3>
-<ol>
+@model List<string>
+<label for="CompanyName">Company Name</label>
+<select   name="CompanyName"  class="form-control">
     @foreach (var item in Model)
     {
 
-        <li>@item</li>
-
+        <option value="@item" selected="@(item == ViewBag.SelectedCompanyName)">@item</option>
     }
-</ol>
+</select>
